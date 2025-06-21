@@ -1,0 +1,129 @@
+/* Inspired by modern book store UI */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap');
+
+/* Set base font and background for the entire page */
+body {
+  font-family: 'Inter', sans-serif !important;
+  background-color: #f8f9fa !important;
+}
+
+/* Main container for content, providing space from header/footer */
+.container.mx-auto.p-4 {
+  background-color: transparent !important;
+  max-width: 1200px;
+  margin-top: 56px !important;
+  margin-bottom: 56px !important;
+  padding: 0 24px !important;
+}
+
+/* Main book title styling */
+h1.text-4xl {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 2.8rem !important;
+  font-weight: 700 !important;
+  color: #212529 !important;
+  margin-bottom: 24px !important;
+  text-align: left;
+}
+
+/* General card style for all content boxes */
+.lg\:col-span-1 > .bg-white,
+.lg\:col-span-2 > .bg-white {
+  background: #ffffff !important;
+  border-radius: 16px !important;
+  box-shadow: 0 6px 24px rgba(149, 157, 165, 0.15) !important;
+  padding: 32px !important;
+  border: none !important;
+}
+
+/* Left Card: Book Cover styling */
+.book-cover-detail {
+  width: 280px; /* Larger, as requested */
+  display: block; /* Ensure it's treated as a block for centering */
+  margin: 0 auto 24px auto;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.book-cover-detail img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+.book-cover-detail:hover {
+  transform: scale(1.04);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+/* Author, Seller, and Price styling */
+.lg\:col-span-1 .text-slate-700 {
+  font-size: 0.9rem !important;
+  color: #6c757d !important;
+}
+.lg\:col-span-1 .text-slate-800 {
+  color: #212529 !important;
+  font-weight: 600 !important;
+}
+.lg\:col-span-1 .text-2xl.font-bold { /* Price */
+  font-size: 1.85rem !important;
+  font-weight: 700 !important;
+  color: #212529 !important;
+  margin-top: 16px !important;
+}
+
+/* "Contactar Vendedor" button */
+button.bg-sky-600 {
+  background-color: #007bff !important;
+  color: white !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  padding: 14px 0 !important;
+  transition: all 0.25s ease-out;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+  border: none;
+}
+button.bg-sky-600:hover {
+  background-color: #0069d9 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 123, 255, 0.25);
+}
+
+/* Right Cards: "Detalles" and "Sinopsis" titles */
+.lg\:col-span-2 h2 {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  color: #212529 !important;
+  margin-bottom: 20px !important;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+/* Details Grid styling */
+.details-grid {
+  gap: 16px !important;
+}
+.details-grid .text-xs.text-slate-500 {
+  color: #6c757d !important;
+  font-size: 0.8rem !important;
+  margin-bottom: 2px;
+}
+.details-grid .text-sm.text-slate-800 {
+  color: #343a40 !important;
+  font-weight: 500 !important;
+  font-size: 0.95rem !important;
+}
+
+/* Synopsis paragraph styling */
+.prose.prose-sm p {
+  line-height: 1.7 !important;
+  color: #495057 !important;
+  font-size: 1rem !important;
+}
+
+/* Remove any leftover specific styles that might conflict */
+.book-description, .book-title, .book-details h3, .book-synopsis h3 {
+  /* This block is intentionally left empty to override previous general rules if needed, without using unset */
+}
+
