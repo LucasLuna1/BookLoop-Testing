@@ -36,9 +36,9 @@ function Login() {
       const response = await axios.post('http://localhost:5000/api/users/login', formData);
       console.log('Respuesta del servidor:', response.data);
       
-      if (response.data.user) {
-        // Usar el contexto de autenticación para guardar el usuario
-        login(response.data.user);
+      if (response.data.user && response.data.token) {
+        // Usar el contexto de autenticación para guardar el usuario y token
+        login(response.data.user, response.data.token);
         navigate('/');
       } else {
         setError('Error en la respuesta del servidor');

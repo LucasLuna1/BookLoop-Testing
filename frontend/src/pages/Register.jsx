@@ -59,22 +59,21 @@ function Register() {
 
     try {
       console.log('Enviando datos de registro:', {
-        nombre: formData.nombre,
-        apellido: formData.apellido,
+        name: `${formData.nombre} ${formData.apellido}`,
         email: formData.email,
-        username: formData.username,
         password: formData.password
       });
 
       const response = await axios.post('http://localhost:5000/api/users/registro', {
-        nombre: formData.nombre,
-        apellido: formData.apellido,
+        name: `${formData.nombre} ${formData.apellido}`,
         email: formData.email,
-        username: formData.username,
         password: formData.password
       });
 
       console.log('Respuesta del servidor:', response.data);
+      
+      // Mostrar mensaje de éxito y redirigir
+      alert('Usuario registrado exitosamente. Ahora puedes iniciar sesión.');
       navigate('/login');
     } catch (error) {
       console.error('Error completo:', error);

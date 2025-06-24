@@ -21,10 +21,10 @@ const Books = () => {
   const [error, setError] = useState(null);
   const [editingBook, setEditingBook] = useState(null);
   const [collapsed, setCollapsed] = useState({
-    genero: true,
-    idioma: true,
-    estado: true,
-    precio: true
+    genero: false,
+    idioma: false,
+    estado: false,
+    precio: false
   });
   const [priceRange, setPriceRange] = useState({ min: '', max: '' });
   const [sortBy, setSortBy] = useState('default');
@@ -130,8 +130,8 @@ const Books = () => {
         <aside className="sidebar">
           <h3 className="sidebar-title">Filtrar</h3>
           <div className="filter-group">
-            <div className="filter-header" onClick={() => toggle("genero")}>Género <span>{collapsed.genero ? "-" : "+"}</span></div>
-            <div className={`filter-options ${collapsed.genero ? "" : "collapsed"}`}>
+            <div className="filter-header" onClick={() => toggle("genero")}>Género <span>{collapsed.genero ? "+" : "-"}</span></div>
+            <div className={`filter-options ${collapsed.genero ? "collapsed" : ""}`}>
               {["Novela", "Cuento", "Poesía", "Drama", "Ciencia ficción", "Fantasía", "Misterio", "Terror", "Romance", "Deportes", "Realistas", "Salud", "Tecnología"].map((genre) => (
                 <label key={genre}>
                   <input type="checkbox" /> {genre}
@@ -140,8 +140,8 @@ const Books = () => {
             </div>
           </div>
           <div className="filter-group">
-            <div className="filter-header" onClick={() => toggle("idioma")}>Idioma <span>{collapsed.idioma ? "-" : "+"}</span></div>
-            <div className={`filter-options ${collapsed.idioma ? "" : "collapsed"}`}>
+            <div className="filter-header" onClick={() => toggle("idioma")}>Idioma <span>{collapsed.idioma ? "+" : "-"}</span></div>
+            <div className={`filter-options ${collapsed.idioma ? "collapsed" : ""}`}>
               {["Español", "Inglés", "Francés"].map((lang) => (
                 <label key={lang}>
                   <input type="checkbox" /> {lang}
@@ -150,8 +150,8 @@ const Books = () => {
             </div>
           </div>
           <div className="filter-group">
-            <div className="filter-header" onClick={() => toggle("estado")}>Estado <span>{collapsed.estado ? "-" : "+"}</span></div>
-            <div className={`filter-options ${collapsed.estado ? "" : "collapsed"}`}>
+            <div className="filter-header" onClick={() => toggle("estado")}>Estado <span>{collapsed.estado ? "+" : "-"}</span></div>
+            <div className={`filter-options ${collapsed.estado ? "collapsed" : ""}`}>
               {["Nuevo","Como Nuevo","Buen Estado", "Usado"].map((state) => (
                 <label key={state}>
                   <input type="checkbox" /> {state}
@@ -160,8 +160,8 @@ const Books = () => {
             </div>
           </div>
           <div className="filter-group">
-            <div className="filter-header" onClick={() => toggle("precio")}>Rango de Precio <span>{collapsed.precio ? "-" : "+"}</span></div>
-            <div className={`filter-options ${collapsed.precio ? "" : "collapsed"}`}>
+            <div className="filter-header" onClick={() => toggle("precio")}>Rango de Precio <span>{collapsed.precio ? "+" : "-"}</span></div>
+            <div className={`filter-options ${collapsed.precio ? "collapsed" : ""}`}>
               <div className="price-range">
                 <input type="number" placeholder="Desde" value={priceRange.min} onChange={(e) => setPriceRange(prev => ({ ...prev, min: e.target.value }))} />
                 <input type="number" placeholder="Hasta" value={priceRange.max} onChange={(e) => setPriceRange(prev => ({ ...prev, max: e.target.value }))} />
@@ -218,4 +218,4 @@ const Books = () => {
   );
 };
 
-export default Books; 
+export default Books;

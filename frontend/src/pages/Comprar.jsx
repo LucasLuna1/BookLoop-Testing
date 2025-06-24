@@ -25,28 +25,17 @@ const Comprar = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [collapsed, setCollapsed] = useState({
-    genero: true,
-    idioma: true,
-    estado: true,
-    precio: true
+    genero: false,
+    idioma: false,
+    estado: false,
+    precio: false
   });
   const [priceRange, setPriceRange] = useState({ min: '', max: '' });
   const [sortBy, setSortBy] = useState('default');
-  const [categories, setCategories] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState([]);
-  const [selectedLanguages, setSelectedLanguages] = useState([]);
-  const [selectedConditions, setSelectedConditions] = useState([]);
-
-  // Mapeo de códigos de idioma a nombres completos
-  const languageMap = {
-    'en': 'Inglés',
-    'es': 'Español',
-    'fr': 'Francés',
-  };
 
   useEffect(() => {
     fetchBooks();
-    fetchCategories();
   }, []);
 
   const fetchBooks = async () => {
@@ -67,19 +56,7 @@ const Comprar = () => {
     }
   };
 
-  const fetchCategories = async () => {
-    try {
-      const response = await fetch(`${API_URL}/api/categories`);
-      if (!response.ok) {
-        throw new Error(`Error ${response.status}: ${response.statusText}`);
-      }
-      const data = await response.json();
-      setCategories(data);
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-      setCategories([]);
-    }
-  };
+
 
   const toggle = (key) => {
     setCollapsed((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -95,25 +72,7 @@ const Comprar = () => {
     });
   };
 
-  const handleLanguageChange = (language) => {
-    setSelectedLanguages((prevSelectedLanguages) => {
-      if (prevSelectedLanguages.includes(language)) {
-        return prevSelectedLanguages.filter((l) => l !== language);
-      } else {
-        return [...prevSelectedLanguages, language];
-      }
-    });
-  };
 
-  const handleConditionChange = (condition) => {
-    setSelectedConditions((prevSelectedConditions) => {
-      if (prevSelectedConditions.includes(condition)) {
-        return prevSelectedConditions.filter((c) => c !== condition);
-      } else {
-        return [...prevSelectedConditions, condition];
-      }
-    });
-  };
 
   const handleSort = (books) => {
     switch (sortBy) {
@@ -156,27 +115,10 @@ const Comprar = () => {
     if (priceRange.min && price < parseFloat(priceRange.min)) return false;
     if (priceRange.max && price > parseFloat(priceRange.max)) return false;
 
-    // Filtrado por género
+    // Filtrado por género - simplificado
     if (selectedGenres.length > 0) {
-      const bookGenres = (book.genero || book.genre || '').split(',').map(g => g.trim());
-      const matchesGenre = selectedGenres.some(selectedGenre =>
-        bookGenres.some(bookGenre => bookGenre.toLowerCase() === selectedGenre.toLowerCase())
-      );
-      if (!matchesGenre) return false;
-    }
-
-    // Filtrado por idioma
-    if (selectedLanguages.length > 0) {
-      const bookLanguage = book.language || '';
-      // Convertir el código de idioma del libro a nombre completo para la comparación
-      const fullLanguageName = languageMap[bookLanguage] || '';
-      if (!selectedLanguages.includes(fullLanguageName)) return false;
-    }
-
-    // Filtrado por estado
-    if (selectedConditions.length > 0) {
-      const bookCondition = book.condition || '';
-      if (!selectedConditions.includes(bookCondition)) return false;
+      // Si no hay géneros seleccionados, mostrar todos los libros
+      return true; // Por ahora deshabilitamos el filtro de género
     }
 
     return true;
@@ -191,55 +133,43 @@ const Comprar = () => {
         <aside className="sidebar">
           <h3 className="sidebar-title">Filtrar</h3>
           <div className="filter-group">
-            <div className="filter-header" onClick={() => toggle("genero")}>Género <span>{collapsed.genero ? "-" : "+"}</span></div>
-            <div className={`filter-options ${collapsed.genero ? "" : "collapsed"}`}>
-              {categories.map((category) => (
-                <label key={category.category_id}>
+            <div className="filter-header" onClick={() => toggle("genero")}>Género <span>{collapsed.genero ? "+" : "-"}</span></div>
+            <div className={`filter-options ${collapsed.genero ? "collapsed" : ""}`}>
+              {["Novela", "Cuento", "Poesía", "Drama", "Ciencia ficción", "Fantasía", "Misterio", "Terror", "Romance", "Deportes", "Realistas", "Salud", "Tecnología"].map((genre) => (
+                <label key={genre}>
                   <input
                     type="checkbox"
-                    value={category.category_name}
-                    onChange={() => handleGenreChange(category.category_name)}
-                    checked={selectedGenres.includes(category.category_name)}
-                  /> {category.category_name}
+                    value={genre}
+                    onChange={() => handleGenreChange(genre)}
+                    checked={selectedGenres.includes(genre)}
+                  /> {genre}
                 </label>
               ))}
             </div>
           </div>
           <div className="filter-group">
-            <div className="filter-header" onClick={() => toggle("idioma")}>Idioma <span>{collapsed.idioma ? "-" : "+"}</span></div>
-            <div className={`filter-options ${collapsed.idioma ? "" : "collapsed"}`}>
-              {Object.keys(languageMap).map((langCode) => (
-                <label key={langCode}>
-                  <input
-                    type="checkbox"
-                    value={languageMap[langCode]}
-                    onChange={() => handleLanguageChange(languageMap[langCode])}
-                    checked={selectedLanguages.includes(languageMap[langCode])}
-                  /> {languageMap[langCode]}
+            <div className="filter-header" onClick={() => toggle("idioma")}>Idioma <span>{collapsed.idioma ? "+" : "-"}</span></div>
+            <div className={`filter-options ${collapsed.idioma ? "collapsed" : ""}`}>
+              {["Español", "Inglés", "Francés"].map((lang) => (
+                <label key={lang}>
+                  <input type="checkbox" /> {lang}
                 </label>
               ))}
             </div>
           </div>
           <div className="filter-group">
-            <div className="filter-header" onClick={() => toggle("estado")}>Estado <span>{collapsed.estado ? "-" : "+"}</span></div>
-            <div className={`filter-options ${collapsed.estado ? "" : "collapsed"}`}>
-              {[
-                "Nuevo", "Como Nuevo", "Buen Estado", "Usado", "Aceptable", "Muy bueno"
-              ].map((state) => (
+            <div className="filter-header" onClick={() => toggle("estado")}>Estado <span>{collapsed.estado ? "+" : "-"}</span></div>
+            <div className={`filter-options ${collapsed.estado ? "collapsed" : ""}`}>
+              {["Nuevo","Como Nuevo","Buen Estado", "Usado"].map((state) => (
                 <label key={state}>
-                  <input
-                    type="checkbox"
-                    value={state}
-                    onChange={() => handleConditionChange(state)}
-                    checked={selectedConditions.includes(state)}
-                  /> {state}
+                  <input type="checkbox" /> {state}
                 </label>
               ))}
             </div>
           </div>
           <div className="filter-group">
-            <div className="filter-header" onClick={() => toggle("precio")}>Rango de Precio <span>{collapsed.precio ? "-" : "+"}</span></div>
-            <div className={`filter-options ${collapsed.precio ? "" : "collapsed"}`}>
+            <div className="filter-header" onClick={() => toggle("precio")}>Rango de Precio <span>{collapsed.precio ? "+" : "-"}</span></div>
+            <div className={`filter-options ${collapsed.precio ? "collapsed" : ""}`}>
               <div className="price-range">
                 <input type="number" placeholder="Desde" value={priceRange.min} onChange={(e) => setPriceRange(prev => ({ ...prev, min: e.target.value }))} />
                 <input type="number" placeholder="Hasta" value={priceRange.max} onChange={(e) => setPriceRange(prev => ({ ...prev, max: e.target.value }))} />
