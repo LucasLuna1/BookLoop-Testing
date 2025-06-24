@@ -1,0 +1,21 @@
+{
+  "name": "bookloop-unit-tests",
+  "version": "1.0.0",
+  "description": "Tests unitarios específicos para BookLoop - Funciones de negocio",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha *.test.js",
+    "test:coverage": "nyc mocha *.test.js",
+    "test:price": "mocha bookPrice.test.js",
+    "test:validation": "mocha bookValidation.test.js"
+  },
+  "devDependencies": {
+    "mocha": "^10.0.0",
+    "chai": "^4.3.7",
+    "sinon": "^15.0.0",
+    "nyc": "^15.1.0"
+  },
+  "keywords": ["bookloop", "testing", "mocha", "chai", "books", "e-commerce"],
+  "author": "BookLoop Team",
+  "license": "MIT"
+} 

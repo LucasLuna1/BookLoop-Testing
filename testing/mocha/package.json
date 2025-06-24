@@ -1,0 +1,23 @@
+{
+  "name": "bookloop-mocha-tests",
+  "version": "1.0.0",
+  "description": "Pruebas con Mocha para BookLoop",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/*.test.js",
+    "test:watch": "mocha test/*.test.js --watch",
+    "test:api": "mocha test/api.test.js",
+    "test:utils": "mocha test/utils.test.js",
+    "test:db": "mocha test/database.test.js",
+    "test:auth": "mocha test/auth.test.js"
+  },
+  "devDependencies": {
+    "mocha": "^10.0.0",
+    "chai": "^4.3.7",
+    "chai-http": "^4.3.0",
+    "sinon": "^15.0.0"
+  },
+  "keywords": ["testing", "mocha", "bookloop"],
+  "author": "BookLoop Team",
+  "license": "MIT"
+} 
